@@ -33,20 +33,32 @@ func main() {
 		fmt.Println("Enter number of tickets:")
 		fmt.Scan(&userTickets)
 
-		remainingTickets = remainingTickets - userTickets
-		bookings = append(bookings, firstName+" "+lastName)
+		if userTickets <= remainingTickets {
+			remainingTickets = remainingTickets - userTickets
+			bookings = append(bookings, firstName+" "+lastName)
 
-		fmt.Printf("Thank you %v %v for booking %v tickets. You will recieve a confirmation email at %v\n", firstName, lastName, userTickets, email)
-		fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+			fmt.Printf("Thank you %v %v for booking %v tickets. You will recieve a confirmation email at %v\n", firstName, lastName, userTickets, email)
+			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 
-		firstNames := []string{}
-		// this is like this because we get two values for each iteration
-		//the position (index), and what you want to name the element itself (booking)
-		for _, booking := range bookings {
-			var names = strings.Fields(booking)       // gets first name, & lastname
-			firstNames = append(firstNames, names[0]) // add variable & element you are adding to the slice, so first name
+			firstNames := []string{}
+			// this is like this because we get two values for each iteration
+			//the position (index), and what you want to name the element itself (booking)
+			for _, booking := range bookings {
+				var names = strings.Fields(booking)       // gets first name, & lastname
+				firstNames = append(firstNames, names[0]) // add variable & element you are adding to the slice, so first name
+			}
+			fmt.Printf("The first names of bookings are: %v\n", firstNames)
+
+			if remainingTickets == 0 {
+				// end program
+				fmt.Printf("The %v is booked out. Please come back next year!", conferenceName)
+				break
+			}
+		} else {
+			fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets\n", remainingTickets, userTickets)
+			continue // skips to next iteration to start over again so they can have another chance
 		}
-		fmt.Printf("The first names of bookings are: %v\n", firstNames)
+
 	}
 
 }
