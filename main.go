@@ -33,7 +33,16 @@ func main() {
 		fmt.Println("Enter number of tickets:")
 		fmt.Scan(&userTickets)
 
-		if userTickets <= remainingTickets {
+		// User Input Validation
+		isValidName := len(firstName) >= 2 && len(lastName) >= 2
+		// Email Validator
+		isValidEmail := strings.Contains(email, "@") // gives true or false back
+		// User input Validator to make sure user input whole psoitive number greater than 0
+		isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
+
+		//isValidCity := city = "Singapore" || city == "London"
+
+		if isValidName && isValidEmail && isValidTicketNumber {
 			remainingTickets = remainingTickets - userTickets
 			bookings = append(bookings, firstName+" "+lastName)
 
@@ -51,12 +60,21 @@ func main() {
 
 			if remainingTickets == 0 {
 				// end program
-				fmt.Printf("The %v is booked out. Please come back next year!", conferenceName)
+				fmt.Printf("Our %v is booked out. Please come back next year!", conferenceName)
 				break
 			}
 		} else {
-			fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets\n", remainingTickets, userTickets)
-			continue // skips to next iteration to start over again so they can have another chance
+			if !isValidName {
+				fmt.Println("first name or last name you entered is too short")
+			}
+			if !isValidEmail {
+				fmt.Println("Email address you entered does not contain @ sign")
+			}
+			if !isValidTicketNumber {
+				fmt.Println("Number of tickets you enetered is invalid")
+			}
+
+			// continue // skips to next iteration to start over again so they can have another chance
 		}
 
 	}
